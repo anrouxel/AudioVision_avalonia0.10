@@ -3,6 +3,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+              xmlns:vm="using:AudioVision.ViewModels"
              x:Class="AudioVision.Views.SelectFilesView">
-  Welcome to Avalonia!
+    <UserControl.DataContext>
+        <vm:SelectFilesViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <RadioButton x:Name="fileRadioButton" Content="Ajouter des fichiers" IsChecked="{Binding IsFileSelected}" GroupName="FilesOrDisc" />
+            <Button Content="Ajouter des fichiers" Command="{Binding AddFilesCommand}" IsEnabled="{Binding IsFileSelected}"/>
+            <ListBox Items="{Binding SelectedFiles, Mode=TwoWay}" SelectionMode="Multiple" IsEnabled="{Binding IsFileSelected}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                            <Button Content="Supprimer" Command="{Binding DataContext.DeleteFilesCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <RadioButton x:Name="discRadioButton" Content="Sélectionner un disque" IsChecked="{Binding IsDiscSelected}" GroupName="FilesOrDisc" />
+            <Button Content="Sélectionner un disque" IsEnabled="{Binding IsDiscSelected}"/>
+            <ListBox Items="{Binding AvailableDrives}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </Grid>
 </UserControl>
