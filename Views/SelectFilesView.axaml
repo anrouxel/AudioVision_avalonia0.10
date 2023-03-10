@@ -3,41 +3,86 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:vm="using:AudioVision.ViewModels"
              x:Class="AudioVision.Views.SelectFilesView">
-    <UserControl.DataContext>
-        <vm:SelectFilesViewModel/>
-    </UserControl.DataContext>
-
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <RadioButton x:Name="fileRadioButton" Content="Ajouter des fichiers" IsChecked="{Binding IsFileSelected}" GroupName="FilesOrDisc" />
-            <Button Content="Ajouter des fichiers" Command="{Binding AddFilesCommand}" IsEnabled="{Binding IsFileSelected}"/>
-            <ListBox Items="{Binding SelectedFiles, Mode=TwoWay}" SelectionMode="Multiple" IsEnabled="{Binding IsFileSelected}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}" />
-                            <Button Content="Supprimer" Command="{Binding DataContext.DeleteFilesCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
-        <StackPanel Grid.Column="1"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <RadioButton x:Name="discRadioButton" Content="Sélectionner un disque" IsChecked="{Binding IsDiscSelected}" GroupName="FilesOrDisc" />
-            <Button Content="Sélectionner un disque" IsEnabled="{Binding IsDiscSelected}"/>
-            <ListBox Items="{Binding AvailableDrives}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
+        
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Type de sélection" FontSize="16" FontWeight="Bold"  Margin="0 10 0 5" Grid.Row="0" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                    <RadioButton x:Name="fileRadioButton" Content="Fichier" Margin="0 0 10 0" IsChecked="True"/>
+                    <RadioButton x:Name="cdRadioButton" Content="CD/DVD"/>
+                </StackPanel>
+                <TextBlock Text="Liste des fichiers" FontSize="16" FontWeight="Bold" Margin="0 20 0 10" Grid.Row="2" HorizontalAlignment="Center"/>
+                <ListBox Margin="0" SelectionMode="Multiple" HorizontalAlignment="Stretch" Grid.Row="3"  Items="{Binding SelectedFiles}" SelectedItems="{Binding SelectedItems}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Grid Margin="0 10 0 0" HorizontalAlignment="Stretch" Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Supprimer" Margin="0 0 10 0" Grid.Column="0" HorizontalAlignment="Left" Command="{Binding DeleteFilesCommand}"/>
+                    <Button Content="Ajouter" Grid.Column="1" HorizontalAlignment="Right" Command="{Binding AddFilesCommand}"/>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Propriétés du fichier" FontSize="16" FontWeight="Bold" Margin="0 10 0 5" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Nom du fichier : " Margin="0 10 0 5"/>
+                    <TextBlock Text="Chemin d'accès : " Margin="0 5 0 5"/>
+                    <TextBlock Text="Taille : " Margin="0 5 0 5"/>
+                    <TextBlock Text="Date de création : " Margin="0 5 0 5"/>
+                    <TextBlock Text="Date de modification : " Margin="0 5 0 5"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

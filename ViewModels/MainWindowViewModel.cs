@@ -1,6 +1,14 @@
-﻿namespace AudioVision.ViewModels;
+﻿using ReactiveUI;
 
-public class MainWindowViewModel : ViewModelBase
+namespace AudioVision.ViewModels
 {
-    public string Greeting => "Welcome to Avalonia!";
+    public class MainWindowViewModel : ViewModelBase, IScreen
+    {
+        public RoutingState Router { get; } = new RoutingState();
+
+        public MainWindowViewModel()
+        {
+            Router.Navigate.Execute(new SelectFilesViewModel(this));
+        }
+    }
 }
