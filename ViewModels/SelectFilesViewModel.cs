@@ -43,6 +43,8 @@ namespace AudioVision.ViewModels
         public ReactiveCommand<Unit, Unit> AddFilesCommand { get; }
         public ReactiveCommand<Unit, Unit> DeleteFilesCommand { get; }
 
+        public ReactiveCommand<Unit, Unit> NextCommand { get; }
+
         public ObservableCollection<DriveInfo> AvailableDrives { get; }
 
         public SelectFilesViewModel(IScreen screen)
@@ -53,6 +55,7 @@ namespace AudioVision.ViewModels
             _selectedItems = new ObservableCollection<FileInfo>();
             _isFileSelected = true;
             IsDiscSelected = true;
+
             AddFilesCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 var dialog = new OpenFileDialog();
@@ -67,13 +70,20 @@ namespace AudioVision.ViewModels
                     }
                 }
             });
+
             DeleteFilesCommand = ReactiveCommand.Create(() =>
             {
-                foreach (var item in SelectedItems)
+                foreach (var item in SelectedItems.ToList())
                 {
                     SelectedFiles.Remove(item);
                 }
             });
+
+            NextCommand = ReactiveCommand.Create(() =>
+            {
+                HostScreen.Router.Navigate.Execute(new TranscodeProgressViewModel(HostScreen, SelectedFiles));
+            });
+
             AvailableDrives = new ObservableCollection<DriveInfo>(DriveInfo.GetDrives().Where(d => d.DriveType == DriveType.CDRom));
         }
     }

@@ -10,6 +10,7 @@ namespace AudioVision
         public IViewFor ResolveView<T>(T viewModel, string? contract = null) => viewModel switch
         {
             SelectFilesViewModel context => new SelectFilesView { DataContext = context },
+            TranscodeProgressViewModel context => new TranscodeProgressView { DataContext = context },
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel))
         };
     }
