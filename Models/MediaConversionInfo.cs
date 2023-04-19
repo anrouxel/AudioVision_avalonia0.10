@@ -5,13 +5,13 @@ using LibVLCSharp.Shared;
 
 namespace AudioVision.Models
 {
-    public class MediaInfo
+    public class MediaConversionInfo
     {
         public FileInfo Input { get; private set; } = default!;
         public FileInfo Output { get; private set; } = default!;
         public HashSet<IMediaConversionOptions> ConversionOptions { get; private set; } = default!;
 
-        private MediaInfo() { }
+        private MediaConversionInfo() { }
 
         public class Builder
         {
@@ -57,7 +57,7 @@ namespace AudioVision.Models
                 return this;
             }
 
-            public MediaInfo Build()
+            public MediaConversionInfo Build()
             {
                 if (this._output == null)
                 {
@@ -68,7 +68,7 @@ namespace AudioVision.Models
                 {
                     this._output.Directory.Create();
                 }
-                return new MediaInfo()
+                return new MediaConversionInfo()
                 {
                     Input = this._input,
                     Output = this._output,
