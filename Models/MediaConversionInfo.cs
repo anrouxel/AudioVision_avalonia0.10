@@ -22,11 +22,7 @@ namespace AudioVision.Models
             public Builder(FileInfo input)
             {
                 this._input = input ?? throw new ArgumentNullException(nameof(input));
-
-                if (!this._input.Exists)
-                {
-                    throw new FileNotFoundException("Fichier d'entrée non trouvé.", this._input.FullName);
-                }
+                ValidateInputFile();
             }
 
             public Builder SetOutput(FileInfo output)
@@ -59,10 +55,7 @@ namespace AudioVision.Models
 
             public MediaConversionInfo Build()
             {
-                if (this._output == null)
-                {
-                    throw new InvalidOperationException("Vous devez appeler SetOutput avant Build.");
-                }
+                ValidateOutputFile();
 
                 if (this._output.Directory != null && !this._output.Directory.Exists)
                 {
@@ -74,6 +67,22 @@ namespace AudioVision.Models
                     Output = this._output,
                     ConversionOptions = this._conversionOptions
                 };
+            }
+
+            private void ValidateInputFile()
+            {
+                if (!this._input.Exists)
+                {
+                    throw new FileNotFoundException("Fichier d'entrée non trouvé.", this._input.FullName);
+                }
+            }
+
+            private void ValidateOutputFile()
+            {
+                if (this._output == null)
+                {
+                    throw new InvalidOperationException("Vous devez appeler SetOutput avant Build.");
+                }
             }
         }
 
