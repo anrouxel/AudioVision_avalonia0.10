@@ -156,6 +156,16 @@ namespace AudioVision.Models
             }
         }
 
+        public string GetOptions()
+        {
+            string options = "";
+            foreach (IMediaConversionOptions option in ConversionOptions)
+            {
+                options += option.GetOptions();
+            }
+            return options;
+        }
+
         /// <summary>
         /// Converts the media.
         /// </summary>

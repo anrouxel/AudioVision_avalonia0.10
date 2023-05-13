@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace AudioVision.Models
 {
     /// <summary>
@@ -152,17 +155,18 @@ namespace AudioVision.Models
         }
 
         /// <summary>
-        /// Returns the options as a string.
+        /// Gets the options.
         /// </summary>
-        /// <returns>The options as a string.</returns>
-        public string GetOptions()
+        /// <returns>The options.</returns>
+        public List<string> GetOptions()
         {
-            var audioCodecOptions = this.GetAudioCodec();
-            var audioBitrateOptions = this.GetAudioBitrate();
-            var audioChannelsOptions = this.GetAudioChannels();
-            var audioSampleRateOptions = this.GetAudioSampleRate();
-
-            return $"#transcode{{{audioCodecOptions},{audioBitrateOptions},{audioChannelsOptions},{audioSampleRateOptions}}}";
+            return new List<string>()
+            {
+                this.GetAudioCodec(),
+                this.GetAudioBitrate(),
+                this.GetAudioChannels(),
+                this.GetAudioSampleRate()
+            };
         }
     }
 }

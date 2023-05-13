@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace AudioVision.Models
 {
     /// <summary>
@@ -6,8 +9,8 @@ namespace AudioVision.Models
     public interface IMediaConversionOptions
     {
         /// <summary>
-        /// Returns the options as a string.
+        /// Gets the options.
         /// </summary>
-        string GetOptions();
+        public List<string> GetOptions();
     }
 }

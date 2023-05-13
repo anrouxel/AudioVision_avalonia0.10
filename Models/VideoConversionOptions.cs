@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace AudioVision.Models
 {
     /// <summary>
@@ -153,16 +156,17 @@ namespace AudioVision.Models
         }
 
         /// <summary>
-        /// Gets the options for video conversion.
+        /// Gets the options.
         /// </summary>
-        /// <returns>The options for video conversion.</returns>
-        public string GetOptions()
+        /// <returns>The options.</returns>
+        public List<string> GetOptions()
         {
-            var videoCodecOptions = this.GetVideoCodecOptions();
-            var videoBitrateOptions = this.GetVideoBitrateOptions();
-            var resolutionOptions = this.GetResolutionOptions();
-
-            return $"#transcode{{{videoCodecOptions},{videoBitrateOptions},{resolutionOptions}}}:";
+            return new List<string>()
+            {
+                this.GetVideoCodecOptions(),
+                this.GetVideoBitrateOptions(),
+                this.GetResolutionOptions()
+            };
         }
     }
 }
